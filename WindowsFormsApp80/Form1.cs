@@ -16,7 +16,7 @@ namespace WindowsFormsApp80
     public partial class Form1 : Form
     {
 
-        private string connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\Users\\lenovo\\Documents\\Database3.mdb";
+        private string connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\Users\\Vasilis\\Source\\Repos\\Acropolis2\\WindowsFormsApp80\\Database\\Database3.mdb";
 
         public Form1()
         {
@@ -119,6 +119,35 @@ namespace WindowsFormsApp80
                 {
                     MessageBox.Show($"Error: {ex.Message}");
                 }
+
+                try
+                {
+                    conn.Open();
+
+                    // Check if the "Users" table exists
+                    DataTable schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, "Progres", null });
+
+                    if (schemaTable != null && schemaTable.Rows.Count > 0)
+                    {
+                        return; // Table exists, no need to create
+                    }
+
+                    // If table does not exist, create it
+                    string createTableQuery = @"
+                CREATE TABLE Progres (
+                    [Email] TEXT(255) PRIMARY KEY,
+                    [chap1] TEXT(255) NOT NULL,
+                    [chap2] TEXT(255) NOT NULL,
+                    [chap3] TEXT(255) NOT NULL,
+                    [chap4] TEXT(255) NOT NULL
+                )";
+                    OleDbCommand cmd = new OleDbCommand(createTableQuery, conn);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
             }
         }
 
@@ -139,8 +168,8 @@ namespace WindowsFormsApp80
 
             if (isAuthenticated)
             {
-                MessageBox.Show("Login successful!");
-                // Optionally, navigate to the next form or show user-specific data
+                Form2 F2 = new Form2();
+                F2.Show();
             }
             else
             {
