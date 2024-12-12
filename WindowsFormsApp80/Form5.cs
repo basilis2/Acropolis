@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp80
 {
-    public partial class Form3 : Form
+    public partial class Form5 : Form
     {
-        public Form3()
+        public Form5()
         {
             InitializeComponent();
         }
@@ -28,16 +28,27 @@ namespace WindowsFormsApp80
             {
                 label2.Visible = false; groupBox2.Visible = true; button1.Text = "View Theory";
             }
-            else {
+            else
+            {
                 button1.Text = "Test me";
                 label2.Visible = true; groupBox2.Visible = false;
             }
-           
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            double total = 0;
+            if (checkBox1.Checked) total += 2.5;
+            if (checkBox3.Checked) total += 2.5;
+            if (checkBox6.Checked) total += 2.5;
+            if (checkBox7.Checked) total += 2.5;
+            Form4 f4 = new Form4(total,"form5");
+            f4.Show(); this.Close();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBox1.Checked) { checkBox2.Checked= false; }
+            if (checkBox1.Checked) { checkBox2.Checked = false; }
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -73,17 +84,6 @@ namespace WindowsFormsApp80
         private void checkBox7_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox7.Checked) { checkBox8.Checked = false; }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            double total = 0;
-            if (checkBox1.Checked) total += 2.5;
-            if(checkBox3.Checked) total += 2.5;
-            if(checkBox6.Checked) total += 2.5;
-            if(checkBox7.Checked) total += 2.5;
-            Form4 f4=new Form4(total,"form3");
-            f4.Show();this.Close();
         }
     }
 }

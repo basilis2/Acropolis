@@ -19,7 +19,7 @@ namespace WindowsFormsApp80
 
         private void button1_MouseHover(object sender, EventArgs e)
         {
-            button1.BackColor = Color.Blue;
+            button1.BackColor = Color.Green;
             button1.ForeColor = System.Drawing.Color.White;
             label1.Text = "Introduction to "+"\n"+"Greek Culture" + "\n" + "and History";
         }
@@ -27,7 +27,7 @@ namespace WindowsFormsApp80
         private void button1_MouseLeave(object sender, EventArgs e)
         {
             button1.BackColor = Color.White;
-            button1.ForeColor = System.Drawing.Color.Black;
+            button1.ForeColor = System.Drawing.Color.Green;
             label1.Text = "Hello my friend!!";
         }
 
@@ -41,7 +41,7 @@ namespace WindowsFormsApp80
         private void button2_MouseLeave(object sender, EventArgs e)
         {
             button2.BackColor = Color.White;
-            button2.ForeColor = System.Drawing.Color.Black; label1.Text = "Hello my friend!!";
+            button2.ForeColor = System.Drawing.Color.Red; label1.Text = "Hello my friend!!";
         }
 
         private void button3_MouseHover(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace WindowsFormsApp80
         private void button3_MouseLeave(object sender, EventArgs e)
         {
             button3.BackColor = Color.White;
-            button3.ForeColor = System.Drawing.Color.Black; label1.Text = "Hello my friend!!";
+            button3.ForeColor = System.Drawing.Color.Red; label1.Text = "Hello my friend!!";
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -65,7 +65,7 @@ namespace WindowsFormsApp80
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            Form6 form= new Form6();form.Show();
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -80,6 +80,16 @@ namespace WindowsFormsApp80
         private void button1_Click(object sender, EventArgs e)
         {
             Form3 f3=new Form3();f3.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form5 f5=new Form5();f5.Show();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Form7 f7=new Form7();f7.Show(); 
         }
     }
 }

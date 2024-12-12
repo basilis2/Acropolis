@@ -91,6 +91,7 @@ namespace WindowsFormsApp80
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            pictureBox1.BringToFront();
             using (OleDbConnection conn = new OleDbConnection(connectionString))
             {
                 try
@@ -100,49 +101,37 @@ namespace WindowsFormsApp80
                     // Check if the "Users" table exists
                     DataTable schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, "Users", null });
 
-                    if (schemaTable != null && schemaTable.Rows.Count > 0)
+                    if (schemaTable == null || schemaTable.Rows.Count == 0)
                     {
-                        return; // Table exists, no need to create
+                        // If table does not exist, create it
+                        string createUsersTableQuery = @"
+                    CREATE TABLE Users (
+                        [ID] AUTOINCREMENT PRIMARY KEY,
+                        [Email] TEXT(255) NOT NULL,
+                        [Password] TEXT(255) NOT NULL
+                    )";
+                        OleDbCommand cmd = new OleDbCommand(createUsersTableQuery, conn);
+                        cmd.ExecuteNonQuery();
                     }
 
-                    // If table does not exist, create it
-                    string createTableQuery = @"
-                CREATE TABLE Users (
-                    [ID] AUTOINCREMENT PRIMARY KEY,
-                    [Email] TEXT(255) NOT NULL,
-                    [Password] TEXT(255) NOT NULL
-                )";
-                    OleDbCommand cmd = new OleDbCommand(createTableQuery, conn);
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}");
-                }
+                    // Check if the "Progress" table exists
+                    DataTable progressSchemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, "Progress", null });
 
-                try
-                {
-                    conn.Open();
-
-                    // Check if the "Users" table exists
-                    DataTable schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, "Progres", null });
-
-                    if (schemaTable != null && schemaTable.Rows.Count > 0)
+                    if (progressSchemaTable == null || progressSchemaTable.Rows.Count == 0)
                     {
-                        return; // Table exists, no need to create
+                        // If table does not exist, create it
+                        string createProgressTableQuery = @"
+                    CREATE TABLE Progress (
+                        [ID] AUTOINCREMENT PRIMARY KEY,
+                        [Email] TEXT(255) NOT NULL,
+                        [Chap1] TEXT(255) DEFAULT '',
+                        [Chap2] TEXT(255) DEFAULT '',
+                        [Chap3] TEXT(255) DEFAULT '',
+                        [Chap4] TEXT(255) DEFAULT ''
+                    )";
+                        OleDbCommand cmd = new OleDbCommand(createProgressTableQuery, conn);
+                        cmd.ExecuteNonQuery();
                     }
-
-                    // If table does not exist, create it
-                    string createTableQuery = @"
-                CREATE TABLE Progres (
-                    [Email] TEXT(255) PRIMARY KEY,
-                    [chap1] TEXT(255) NOT NULL,
-                    [chap2] TEXT(255) NOT NULL,
-                    [chap3] TEXT(255) NOT NULL,
-                    [chap4] TEXT(255) NOT NULL
-                )";
-                    OleDbCommand cmd = new OleDbCommand(createTableQuery, conn);
-                    cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
                 {
@@ -192,6 +181,45 @@ namespace WindowsFormsApp80
                 int count = Convert.ToInt32(cmd.ExecuteScalar());
                 return count > 0;
             }
+        }
+
+        private void button1_MouseHover(object sender, EventArgs e)
+        {
+            button1.BackColor= Color.Green;
+            button1.ForeColor= Color.White;
+        }
+
+        private void button1_MouseLeave(object sender, EventArgs e)
+        {
+            button1.BackColor = Color.White;
+            button1.ForeColor = Color.Green;
+        }
+
+        private void button2_MouseHover(object sender, EventArgs e)
+        {
+            button2.BackColor = Color.Green;
+            button2.ForeColor = Color.White;
+        }
+
+        private void button2_MouseLeave(object sender, EventArgs e)
+        {
+            button2.BackColor = Color.White;
+            button2.ForeColor = Color.Green;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void pictureBox4_MouseHover(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void pictureBox4_MouseLeave(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.Default;
         }
     }
 
