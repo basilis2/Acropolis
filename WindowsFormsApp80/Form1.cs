@@ -15,8 +15,11 @@ namespace WindowsFormsApp80
 {
     public partial class Form1 : Form
     {
+        public static string email;
 
-        private string connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\Users\\Vasilis\\Source\\Repos\\Acropolis2\\WindowsFormsApp80\\Database\\Database3.mdb";
+        
+
+        public static string connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\Users\\Vasilis\\Source\\Repos\\Acropolis2\\WindowsFormsApp80\\Database\\Database3.mdb";
 
         public Form1()
         {
@@ -25,7 +28,7 @@ namespace WindowsFormsApp80
 
         private void button2_Click(object sender, EventArgs e) // Create Account
         {
-            string email = textBox1.Text.Trim();  // Get email from the TextBox
+            email = textBox1.Text.Trim();  // Get email from the TextBox
             string password = textBox2.Text.Trim();  // Get password from the TextBox
 
             // Validate the inputs (e.g., check for empty fields)
@@ -62,7 +65,7 @@ namespace WindowsFormsApp80
             using (OleDbConnection conn = new OleDbConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT COUNT(*) FROM Users WHERE Email = @Email";
+                string query = "SELECT COUNT(*) FROM Users2 WHERE Email = @Email";
                 OleDbCommand cmd = new OleDbCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Email", email);
 
@@ -72,22 +75,72 @@ namespace WindowsFormsApp80
         }
 
         // Insert the user data into the database
+        /*  private bool InsertUserIntoDatabase(string email, string password)
+          {
+              using (OleDbConnection conn = new OleDbConnection(connectionString))
+              {
+                  conn.Open();
+                  // Surround [Password] with square brackets
+                  string query = "INSERT INTO Users (Email, [Password]) VALUES (@Email, @Password)";
+                  OleDbCommand cmd = new OleDbCommand(query, conn);
+
+                  cmd.Parameters.AddWithValue("@Email", email);
+                  cmd.Parameters.AddWithValue("@Password", password);
+
+                  int rowsAffected = cmd.ExecuteNonQuery();
+                  return rowsAffected > 0;
+              }
+          }*/
+
+
         private bool InsertUserIntoDatabase(string email, string password)
         {
             using (OleDbConnection conn = new OleDbConnection(connectionString))
             {
                 conn.Open();
-                // Surround [Password] with square brackets
-                string query = "INSERT INTO Users (Email, [Password]) VALUES (@Email, @Password)";
-                OleDbCommand cmd = new OleDbCommand(query, conn);
 
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Password", password);
+                // Use a transaction to ensure both INSERT operations are atomic
+                OleDbTransaction transaction = conn.BeginTransaction();
 
-                int rowsAffected = cmd.ExecuteNonQuery();
-                return rowsAffected > 0;
+                try
+                {
+                    // Insert into Users table
+                    string userQuery = "INSERT INTO Users2 (Email, [Password]) VALUES (@Email, @Password)";
+                    using (OleDbCommand cmd = new OleDbCommand(userQuery, conn, transaction))
+                    {
+                        cmd.Parameters.Add(new OleDbParameter("@Email", OleDbType.VarChar)).Value = email;
+                        cmd.Parameters.Add(new OleDbParameter("@Password", OleDbType.VarChar)).Value = password;
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Insert into Progress table
+                    string progressQuery = "INSERT INTO Progress2 (Email, Chap1, Chap2, Chap3, Chap4) VALUES (@Email, @Chap1, @Chap2, @Chap3, @Chap4)";
+                    using (OleDbCommand cmd = new OleDbCommand(progressQuery, conn, transaction))
+                    {
+                        cmd.Parameters.Add(new OleDbParameter("@Email", OleDbType.VarChar)).Value = email;
+                        cmd.Parameters.Add(new OleDbParameter("@Chap1", OleDbType.Integer)).Value = 0;
+                        cmd.Parameters.Add(new OleDbParameter("@Chap2", OleDbType.Integer)).Value = 0;
+                        cmd.Parameters.Add(new OleDbParameter("@Chap3", OleDbType.Integer)).Value = 0;
+                        cmd.Parameters.Add(new OleDbParameter("@Chap4", OleDbType.Integer)).Value = 0;
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // Commit transaction if both operations succeed
+                    transaction.Commit();
+                    return true;
+                }
+                catch
+                {
+                    // Rollback transaction if any operation fails
+                    transaction.Rollback();
+                    throw;
+                }
             }
         }
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -99,13 +152,13 @@ namespace WindowsFormsApp80
                     conn.Open();
 
                     // Check if the "Users" table exists
-                    DataTable schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, "Users", null });
+                    DataTable schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, "Users2", null });
 
                     if (schemaTable == null || schemaTable.Rows.Count == 0)
                     {
                         // If table does not exist, create it
                         string createUsersTableQuery = @"
-                    CREATE TABLE Users (
+                    CREATE TABLE Users2 (
                         [ID] AUTOINCREMENT PRIMARY KEY,
                         [Email] TEXT(255) NOT NULL,
                         [Password] TEXT(255) NOT NULL
@@ -115,19 +168,19 @@ namespace WindowsFormsApp80
                     }
 
                     // Check if the "Progress" table exists
-                    DataTable progressSchemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, "Progress", null });
+                    DataTable progressSchemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, "Progress2", null });
 
                     if (progressSchemaTable == null || progressSchemaTable.Rows.Count == 0)
                     {
                         // If table does not exist, create it
                         string createProgressTableQuery = @"
-                    CREATE TABLE Progress (
+                    CREATE TABLE Progress2 (
                         [ID] AUTOINCREMENT PRIMARY KEY,
                         [Email] TEXT(255) NOT NULL,
-                        [Chap1] TEXT(255) DEFAULT '',
-                        [Chap2] TEXT(255) DEFAULT '',
-                        [Chap3] TEXT(255) DEFAULT '',
-                        [Chap4] TEXT(255) DEFAULT ''
+                        [Chap1] INTEGER DEFAULT 0,
+                        [Chap2] INTEGER DEFAULT 0,
+                        [Chap3] INTEGER DEFAULT 0,
+                        [Chap4] INTEGER DEFAULT 0
                     )";
                         OleDbCommand cmd = new OleDbCommand(createProgressTableQuery, conn);
                         cmd.ExecuteNonQuery();
@@ -142,7 +195,7 @@ namespace WindowsFormsApp80
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string email = textBox1.Text.Trim(); // Email from the TextBox
+            email = textBox1.Text.Trim(); // Email from the TextBox
             string password = textBox2.Text.Trim(); // Password from the TextBox
 
             // Validate the inputs (e.g., check for empty fields)
@@ -157,7 +210,7 @@ namespace WindowsFormsApp80
 
             if (isAuthenticated)
             {
-                Form2 F2 = new Form2();
+                Form2 F2 = new Form2(email);
                 F2.Show();
             }
             else
@@ -172,7 +225,7 @@ namespace WindowsFormsApp80
             {
                 conn.Open();
 
-                string query = "SELECT COUNT(*) FROM Users WHERE Email = @Email AND [Password] = @Password";
+                string query = "SELECT COUNT(*) FROM Users2 WHERE Email = @Email AND [Password] = @Password";
                 OleDbCommand cmd = new OleDbCommand(query, conn);
 
                 cmd.Parameters.AddWithValue("@Email", email);
@@ -220,6 +273,11 @@ namespace WindowsFormsApp80
         private void pictureBox4_MouseLeave(object sender, EventArgs e)
         {
             this.Cursor = Cursors.Default;
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            Form8  f8=new Form8();f8.Show();
         }
     }
 

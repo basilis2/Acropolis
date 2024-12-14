@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.OleDb;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace WindowsFormsApp80
 {
@@ -82,6 +84,36 @@ namespace WindowsFormsApp80
             if(checkBox3.Checked) total += 2.5;
             if(checkBox6.Checked) total += 2.5;
             if(checkBox7.Checked) total += 2.5;
+            string query = "UPDATE Progress2 SET Chap1 = @Chap1 WHERE Email = @Email";
+
+            if (total >= 5) {
+                using (OleDbConnection conn = new OleDbConnection(Form1.connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                        {
+                            cmd.Parameters.Add(new OleDbParameter("@Chap1", OleDbType.Double)).Value = total;
+                            cmd.Parameters.Add(new OleDbParameter("@Email", OleDbType.VarChar)).Value = Form1.email;
+
+                            int rowsAffected = cmd.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+
+                            }
+                            else
+                            {
+                                MessageBox.Show("No record found for the specified email.");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: {ex.Message}");
+                    }
+                }
+            }
             Form4 f4=new Form4(total,"form3");
             f4.Show();this.Close();
         }
