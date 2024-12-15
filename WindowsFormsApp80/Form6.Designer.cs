@@ -43,11 +43,14 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +58,9 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Azure;
+            this.groupBox2.Controls.Add(this.checkBox9);
+            this.groupBox2.Controls.Add(this.checkBox10);
+            this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.checkBox7);
             this.groupBox2.Controls.Add(this.checkBox8);
@@ -72,7 +78,7 @@
             this.groupBox2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.groupBox2.Location = new System.Drawing.Point(445, 80);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(415, 406);
+            this.groupBox2.Size = new System.Drawing.Size(415, 462);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "TEST TIME";
@@ -83,7 +89,7 @@
             this.button2.BackColor = System.Drawing.Color.Green;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.button2.ForeColor = System.Drawing.Color.Transparent;
-            this.button2.Location = new System.Drawing.Point(297, 359);
+            this.button2.Location = new System.Drawing.Point(297, 412);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 41);
             this.button2.TabIndex = 12;
@@ -100,6 +106,7 @@
             this.checkBox7.TabIndex = 11;
             this.checkBox7.Text = "False";
             this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // checkBox8
             // 
@@ -110,6 +117,7 @@
             this.checkBox8.TabIndex = 10;
             this.checkBox8.Text = "True";
             this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
             // 
             // label6
             // 
@@ -131,6 +139,7 @@
             this.checkBox5.TabIndex = 8;
             this.checkBox5.Text = "False";
             this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
             // checkBox6
             // 
@@ -141,6 +150,7 @@
             this.checkBox6.TabIndex = 7;
             this.checkBox6.Text = "True";
             this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
             // 
             // label5
             // 
@@ -162,6 +172,7 @@
             this.checkBox3.TabIndex = 5;
             this.checkBox3.Text = "False";
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // checkBox4
             // 
@@ -172,6 +183,7 @@
             this.checkBox4.TabIndex = 4;
             this.checkBox4.Text = "True";
             this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
             // label4
             // 
@@ -192,6 +204,7 @@
             this.checkBox2.TabIndex = 2;
             this.checkBox2.Text = "False";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -202,6 +215,7 @@
             this.checkBox1.TabIndex = 1;
             this.checkBox1.Text = "True";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label3
             // 
@@ -227,6 +241,18 @@
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "THEORY";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.Azure;
+            this.textBox1.Font = new System.Drawing.Font("Arial", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
+            this.textBox1.Location = new System.Drawing.Point(9, 27);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(400, 326);
+            this.textBox1.TabIndex = 2;
             // 
             // button1
             // 
@@ -264,18 +290,6 @@
             this.label1.TabIndex = 7;
             this.label1.Text = "Introduction to Greek Culture and History";
             // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.Azure;
-            this.textBox1.Font = new System.Drawing.Font("Arial", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.textBox1.Location = new System.Drawing.Point(9, 27);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(400, 326);
-            this.textBox1.TabIndex = 2;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -285,6 +299,39 @@
             this.label7.Size = new System.Drawing.Size(106, 21);
             this.label7.TabIndex = 11;
             this.label7.Text = "Chapter 3";
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(304, 388);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(56, 17);
+            this.checkBox9.TabIndex = 15;
+            this.checkBox9.Text = "False";
+            this.checkBox9.UseVisualStyleBackColor = true;
+            this.checkBox9.CheckedChanged += new System.EventHandler(this.checkBox9_CheckedChanged);
+            // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Location = new System.Drawing.Point(201, 388);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(52, 17);
+            this.checkBox10.TabIndex = 14;
+            this.checkBox10.Text = "True";
+            this.checkBox10.UseVisualStyleBackColor = true;
+            this.checkBox10.CheckedChanged += new System.EventHandler(this.checkBox10_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Arial", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.label2.Location = new System.Drawing.Point(6, 345);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(390, 30);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "5.UNESCO’s conventions and cultural diplomacy aim to preserve\r\n heritage while ig" +
+    "noring the rights of nations to reclaim their history.";
             // 
             // Form6
             // 
@@ -332,5 +379,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.Label label2;
     }
 }

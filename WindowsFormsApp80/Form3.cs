@@ -44,7 +44,7 @@ namespace WindowsFormsApp80
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox2.Checked) { checkBox1.Checked = false; }
+           
         }
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
@@ -79,12 +79,13 @@ namespace WindowsFormsApp80
 
         private void button2_Click(object sender, EventArgs e)
         {
-            double total = 0;
-            if (checkBox1.Checked) total += 2.5;
-            if(checkBox3.Checked) total += 2.5;
-            if(checkBox6.Checked) total += 2.5;
-            if(checkBox7.Checked) total += 2.5;
-            string query = "UPDATE Progress2 SET Chap1 = @Chap1 WHERE Email = @Email";
+            int total = 0;
+            if (checkBox1.Checked) total += 2;
+            if(checkBox3.Checked) total += 2;
+            if(checkBox6.Checked) total += 2;
+            if(checkBox7.Checked) total += 2;
+            if (checkBox9.Checked) total += 2;
+            string query = "UPDATE Progress4 SET Chap1 = @Chap1 WHERE Email = @Email";
 
             if (total >= 5) {
                 using (OleDbConnection conn = new OleDbConnection(Form1.connectionString))
@@ -116,6 +117,21 @@ namespace WindowsFormsApp80
             }
             Form4 f4=new Form4(total,"form3");
             f4.Show();this.Close();
+        }
+
+        private void checkBox2_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked) { checkBox1.Checked = false; }
+        }
+
+        private void checkBox9_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox9.Checked) { checkBox10.Checked = false; }
+        }
+
+        private void checkBox10_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox10.Checked) { checkBox9.Checked = false; }
         }
     }
 }

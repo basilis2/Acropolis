@@ -21,5 +21,15 @@ namespace WindowsFormsApp80
         {
             this.Close();
         }
+
+        private void button1_MouseHover(object sender, EventArgs e)
+        {
+            Cursor= Cursors.Hand;
+        }
+
+        private void button1_MouseLeave(object sender, EventArgs e)
+        {
+            Cursor = Cursors.Default;
+        }
     }
 }

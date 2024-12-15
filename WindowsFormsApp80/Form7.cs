@@ -37,7 +37,7 @@ namespace WindowsFormsApp80
             if (checkBox17.Checked) total += 1;
             if (checkBox19.Checked) total += 1;
 
-            string query = "UPDATE Progress2 SET Chap4 = @Chap4 WHERE Email = @Email";
+            string query = "UPDATE Progress4 SET Chap4 = @Chap4 WHERE Email = @Email";
 
             if (total >= 5)
             {
@@ -68,8 +68,14 @@ namespace WindowsFormsApp80
                     }
                 }
             }
-            Form4 f4 = new Form4(total, "form3");
-            f4.Show(); this.Close();
+            if (total >= 5)
+            {
+                Form10 f10 = new Form10(); f10.Show(); this.Close();
+            }
+            else {
+                Form4 f4 = new Form4(total, "form7");
+                f4.Show(); this.Close();
+            }
 
         }
 

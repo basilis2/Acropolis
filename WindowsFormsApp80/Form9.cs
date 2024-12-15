@@ -26,7 +26,7 @@ namespace WindowsFormsApp80
             label2.Text = Form1.email;
 
             // Query to retrieve all progress fields for the specified email
-            string query = "SELECT Chap1, Chap2, Chap3, Chap4 FROM Progress2 WHERE Email = @Email";
+            string query = "SELECT Chap1, Chap2, Chap3, Chap4 FROM Progress4 WHERE Email = @Email";
 
             using (OleDbConnection conn = new OleDbConnection(Form1.connectionString))
             {
@@ -48,10 +48,16 @@ namespace WindowsFormsApp80
                                 label12.Text = reader["Chap2"] != DBNull.Value ? reader["Chap2"].ToString() : "0";
                                 label13.Text = reader["Chap3"] != DBNull.Value ? reader["Chap3"].ToString() : "0";
                                 label14.Text = reader["Chap4"] != DBNull.Value ? reader["Chap4"].ToString() : "0";
-                                if (!reader["Chap4"].ToString().Equals("0")) label4.Text = "Revision Test";
-                                else if (!reader["Chap3"].ToString().Equals("0")) label4.Text = "Chapter 3";
-                                else if (!reader["Chap2"].ToString().Equals("0")) label4.Text = "Chapter 2";
-                                else if (!reader["Chap1"].ToString().Equals("0")) label4.Text = "Chapter 1";
+                                String path = GetCareerPathByEmail();
+                                if (!reader["Chap4"].ToString().Equals("0"))
+                                {
+                                    label3.Text = "Carrer:";
+                                    label4.Text = path.ToLower();
+                                }
+                                else if (!reader["Chap3"].ToString().Equals("0")) { label4.Text = "Chapter 3"; label3.Text = "LEVEL:"; }
+                                else if (!reader["Chap2"].ToString().Equals("0")) { label4.Text = "Chapter 2"; label3.Text = "LEVEL:"; }
+
+                                else if (!reader["Chap1"].ToString().Equals("0")) { label4.Text = "Chapter 1"; label3.Text = "LEVEL:"; }
                             }
                             else
                             {
@@ -74,6 +80,45 @@ namespace WindowsFormsApp80
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        public string GetCareerPathByEmail()
+        {
+            // SQL query to retrieve the Path based on the user's email
+            string query = "SELECT Path FROM Users4 WHERE Email = @Email";
+
+            using (OleDbConnection conn = new OleDbConnection(Form1.connectionString))
+            {
+                try
+                {
+                    conn.Open(); // Open the database connection
+
+                    using (OleDbCommand cmd = new OleDbCommand(query, conn))
+                    {
+                        // Add email parameter to the query
+                        cmd.Parameters.AddWithValue("@Email", Form1.email);
+
+                        // Execute the query and get the result
+                        object result = cmd.ExecuteScalar();
+
+                        // Check if the result is not null and return the career path
+                        if (result != null)
+                        {
+                            return result.ToString(); // Return the career path string
+                        }
+                        else
+                        {
+                            return "No career path found for this email."; // Handle case where no career path is found
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle any errors that occur during the query
+                    MessageBox.Show($"An error occurred while retrieving the career path: {ex.Message}");
+                    return "Error occurred"; // Return a default error message
+                }
+            }
         }
     }
 }

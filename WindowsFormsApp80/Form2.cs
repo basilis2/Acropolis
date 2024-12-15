@@ -41,7 +41,7 @@ namespace WindowsFormsApp80
         {
             button1.BackColor = Color.White;
             button1.ForeColor = System.Drawing.Color.Green;
-            label1.Text = "Hello my friend!!";
+            label1.Text = "Start your first" + "\n" + "chapter!";
         }
 
         private void button2_MouseHover(object sender, EventArgs e)
@@ -102,7 +102,7 @@ namespace WindowsFormsApp80
                 button3.BackColor = Color.White;
                 button3.ForeColor = System.Drawing.Color.Red;
             }
-            label1.Text = "Hello my friend!!";
+            //label1.Text = "Hello my friend!!";
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -112,13 +112,13 @@ namespace WindowsFormsApp80
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Form6 form= new Form6();form.Show();
+            Form6 form= new Form6();form.Show(); this.Close();
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            label1.Text = "Hello my frind!!";
-            string query = "SELECT Chap1, Chap2, Chap3, Chap4 FROM Progress2 WHERE Email = @Email";
+            //label1.Text = "Hello my friend!!";
+            string query = "SELECT Chap1, Chap2, Chap3, Chap4 FROM Progress4 WHERE Email = @Email";
 
             using (OleDbConnection conn = new OleDbConnection(Form1.connectionString))
             {
@@ -147,7 +147,7 @@ namespace WindowsFormsApp80
                                 button3.ForeColor = Color.Green;
                                 button2.Enabled = true;
                                 button2.ForeColor = Color.Green;
-                               // label1.Text = "You have finished\n the test!!!";
+                               label1.Text = "You have finished\n the test!!!";
                             }
                             else if (!chap3.Equals("0"))
                             {
@@ -156,7 +156,7 @@ namespace WindowsFormsApp80
                                 button3.ForeColor = Color.Green;
                                 button2.Enabled = true;
                                 button2.ForeColor = Color.Green;
-                               // label1.Text = "Final Test\n Unlocked!!!";
+                                label1.Text = "Final Test\n Unlocked!!!";
                             }
                             else if (!chap2.Equals("0"))
                             {
@@ -165,20 +165,21 @@ namespace WindowsFormsApp80
                                 button3.ForeColor = Color.Green;
                                 button2.Enabled = true;
                                 button2.ForeColor = Color.Green;
-                                //label1.Text = "Chapter 2 is in progress.";
+                                label1.Text = "Chapter3 is"+"\n"+"waiting for you.";
                             }
                             else if (!chap1.Equals("0"))
                             {
                                 button5.Visible = false;
                                 button2.Enabled = true;
                                 button2.ForeColor = Color.Green;
-                                //label1.Text = "Chapter 1 is in progress.";
+                                label1.Text = "Nice to see you"+"\n"+"my friend";
                             }
                             else
                             {
                                 // Default state if no progress has been made
                                 button5.Visible = false;
-                                //label1.Text = "Start your first chapter!";
+                                label1.Text = "Start your first"+"\n"+"chapter!";
+
                             }
                         }
                     }
@@ -206,7 +207,7 @@ namespace WindowsFormsApp80
 
         private void button5_Click(object sender, EventArgs e)
         {
-            Form7 f7=new Form7();f7.Show(); 
+            Form7 f7=new Form7();f7.Show();
         }
 
         private void pictureBox3_MouseHover(object sender, EventArgs e)

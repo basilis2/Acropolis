@@ -54,12 +54,16 @@ namespace WindowsFormsApp80
                 {
                     Form3 f3 = new Form3(); f3.Show(); this.Close();
                 }
+                else if (location.Equals("form6"))
+                {
+                    Form6 f6 = new Form6(); f6.Show(); this.Close();
+                }
                 else if (location.Equals("form5"))
                 {
                     Form5 form5 = new Form5(); form5.Show(); this.Close();
                 }
                 else {
-                    Form6 form6 = new Form6(); form6.Show(); this.Close();
+                    Form7 form7 = new Form7(); form7.Show(); this.Close();
                 }
             }
             else {
